@@ -1,11 +1,25 @@
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 
-const app = express(); // <-- Define app first
+const app = express();
+app.use(cors());
 
-app.use(cors());       // <-- THEN use it
+// Serve data.json on /data route
+app.get('/data', (req, res) => {
+  const dataPath = path.join(__dirname, 'data.json');
+  fs.readFile(dataPath, 'utf8', (err, jsonData) => {
+    if (err) {
+      console.error('Error reading JSON file:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    res.header('Content-Type', 'application/json');
+    res.send(jsonData);
+  });
+});
 
-// Your other routes and middleware
+// Default route
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
