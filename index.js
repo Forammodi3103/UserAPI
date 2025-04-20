@@ -1,21 +1,16 @@
-const express = require("express");
-const cors = require("cors");
+const express = require('express');
+const cors = require('cors');
 
-app.use(cors());
+const app = express(); // <-- Define app first
 
-const app = express();
-const port = process.env.PORT || 3000;
+app.use(cors());       // <-- THEN use it
 
-const apiData = require("./data.jdon");
-
-app.get("/", (req, res) => {
-    res.send("Hello I am live");
+// Your other routes and middleware
+app.get('/', (req, res) => {
+  res.send('Hello World!');
 });
 
-app.get("/service", (req, res) => {
-    res.send(apiData);
-});
-
-app.listen(port, () => {
-    console.log("I am Live again");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
